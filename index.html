@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Avante CEIC</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,8 +18,6 @@
       --text-blue: #083c85;
       --body-text: #324158;
       --white: #ffffff;
-      --line-blue: rgba(3, 59, 133, 0.10);
-      --border-blue: rgba(3, 59, 133, 0.22);
     }
 
     * {
@@ -38,9 +35,7 @@
       color: var(--body-text);
     }
 
-    /* =========================
-       OPENING SCROLL EXPERIENCE
-       ========================= */
+    /* Opening scroll experience */
 
     .scroll-intro {
       position: relative;
@@ -61,15 +56,11 @@
       position: absolute;
       inset: 0;
       z-index: 2;
-
-      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-
       overflow: hidden;
       background: var(--brand-blue);
-
       will-change: opacity;
     }
 
@@ -78,17 +69,13 @@
       top: 50%;
       left: 50%;
       z-index: 1;
-
       width: min(100vw, 100vh);
       height: min(100vw, 100vh);
-
       display: block;
       object-fit: contain;
       object-position: center;
-
       user-select: none;
       pointer-events: none;
-
       transform: translate(-50%, -50%) scale(1);
       transform-origin: center;
       will-change: transform;
@@ -99,24 +86,19 @@
       left: 50%;
       bottom: 24px;
       z-index: 20;
-
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 9px;
-
       transform: translateX(-50%);
-
       font-family: "Montserrat", sans-serif;
       font-size: 10px;
       font-weight: 600;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       white-space: nowrap;
-
       color: rgba(255, 255, 255, 0.96);
       text-shadow: 0 2px 14px rgba(0, 0, 0, 0.42);
-
       pointer-events: none;
       will-change: opacity;
     }
@@ -142,25 +124,19 @@
       }
     }
 
-    /* =========================
-       WHITE LANDING PAGE
-       ========================= */
+    /* White landing page */
 
     .original-page {
       position: absolute;
       inset: 0;
       z-index: 1;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       padding: 50px 24px;
       background: var(--white);
-
       opacity: 0;
       transform: translateY(55px);
-
       pointer-events: none;
       will-change: opacity, transform;
     }
@@ -182,12 +158,10 @@
     .paragraph {
       max-width: 800px;
       margin: 0 auto;
-
       font-family: "Cormorant Garamond", serif;
       font-size: clamp(21px, 2.4vw, 31px);
       font-weight: 300;
       line-height: 1.45;
-
       color: var(--body-text);
     }
 
@@ -200,16 +174,13 @@
       display: inline-block;
       margin-top: 46px;
       padding-bottom: 7px;
-
       font-family: "Montserrat", sans-serif;
       font-size: 14px;
       font-weight: 600;
       letter-spacing: 0.06em;
-
       color: var(--text-blue);
       text-decoration: none;
       border-bottom: 1px solid rgba(8, 60, 133, 0.45);
-
       transition:
         opacity 250ms ease,
         border-color 250ms ease,
@@ -222,71 +193,36 @@
       padding-bottom: 11px;
     }
 
-    /* =========================
-       PORTFOLIO SECTION
-       ========================= */
+    /* Portfolio */
 
     .portfolio-section {
-      position: relative;
-      overflow: hidden;
-      padding: 120px 24px 130px;
+      padding: 110px 24px 125px;
       background: var(--white);
       border-top: 1px solid rgba(3, 59, 133, 0.08);
     }
 
-    .portfolio-pattern {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      opacity: 1;
-
-      background-image:
-        linear-gradient(30deg, transparent 48%, var(--line-blue) 49%, var(--line-blue) 51%, transparent 52%),
-        linear-gradient(-30deg, transparent 48%, var(--line-blue) 49%, var(--line-blue) 51%, transparent 52%),
-        radial-gradient(circle at 50% 0%, transparent 0 48px, var(--line-blue) 49px 50px, transparent 51px),
-        radial-gradient(circle at 50% 100%, transparent 0 48px, var(--line-blue) 49px 50px, transparent 51px);
-
-      background-size:
-        180px 180px,
-        180px 180px,
-        180px 180px,
-        180px 180px;
-
-      background-position:
-        0 0,
-        0 0,
-        0 0,
-        90px 90px;
-    }
-
     .portfolio-inner {
-      position: relative;
-      z-index: 1;
-      width: min(1180px, 100%);
+      width: min(1100px, 100%);
       margin: 0 auto;
     }
 
     .portfolio-heading {
-      margin: 0 0 18px;
-
+      margin: 0 0 16px;
       font-family: "Cormorant Garamond", serif;
-      font-size: clamp(48px, 7vw, 84px);
+      font-size: clamp(48px, 7vw, 82px);
       font-weight: 400;
       line-height: 1;
-
       color: var(--brand-blue);
       text-align: center;
     }
 
     .portfolio-subheading {
-      max-width: 720px;
-      margin: 0 auto 58px;
-
+      max-width: 700px;
+      margin: 0 auto 52px;
       font-family: "Cormorant Garamond", serif;
-      font-size: clamp(19px, 2vw, 25px);
+      font-size: clamp(19px, 2vw, 24px);
       font-weight: 300;
       line-height: 1.5;
-
       color: var(--body-text);
       text-align: center;
     }
@@ -300,26 +236,19 @@
     }
 
     .portfolio-card {
+      position: relative;
       width: 280px;
       height: 170px;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       padding: 28px;
-
       background: var(--white);
       border: 1px solid rgba(3, 59, 133, 0.14);
       border-radius: 8px;
-
-      text-decoration: none;
-
       box-shadow: 0 10px 30px rgba(3, 59, 133, 0.05);
-
       transform: translateY(25px);
       opacity: 0;
-
       transition:
         transform 350ms ease,
         box-shadow 350ms ease,
@@ -346,7 +275,6 @@
       max-width: 100%;
       max-height: 90px;
       object-fit: contain;
-
       transition: transform 350ms ease;
     }
 
@@ -357,35 +285,19 @@
     .portfolio-status {
       position: absolute;
       left: 50%;
-      bottom: 16px;
+      bottom: 14px;
       transform: translateX(-50%);
       font-family: "Montserrat", sans-serif;
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 600;
-      letter-spacing: .14em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: rgba(3,59,133,.55);
+      color: rgba(3, 59, 133, 0.55);
     }
-
 
     .ending-space {
       min-height: 10vh;
       background: var(--white);
-    }
-
-    /* =========================
-       RESPONSIVE
-       ========================= */
-
-    @media (max-width: 800px) {
-      .portfolio-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .portfolio-card {
-        width: min(280px, 100%);
-        height: 160px;
-      }
     }
 
     @media (max-width: 700px) {
@@ -427,11 +339,12 @@
       }
 
       .portfolio-section {
-        padding: 90px 18px 100px;
+        padding: 85px 18px 95px;
       }
 
       .portfolio-card {
-        padding: 28px;
+        width: min(280px, 100%);
+        height: 160px;
       }
     }
 
@@ -453,16 +366,12 @@
 </head>
 
 <body>
-
   <main>
 
     <section class="scroll-intro" id="scrollIntro">
-
       <div class="scene">
 
-        <!-- White Avante page -->
         <div class="original-page" id="originalPage">
-
           <div class="page-content">
 
             <img
@@ -486,14 +395,9 @@
             </a>
 
           </div>
-
         </div>
 
-        <!-- Full-screen Great Zimbabwe opening -->
-        <div
-          class="opening-visual"
-          id="openingVisual"
-        >
+        <div class="opening-visual" id="openingVisual">
 
           <img
             class="hero-image"
@@ -502,10 +406,7 @@
             alt="Great Zimbabwe illustration"
           >
 
-          <div
-            class="scroll-message"
-            id="scrollMessage"
-          >
+          <div class="scroll-message" id="scrollMessage">
             <span>Scroll to enter</span>
             <span class="scroll-line"></span>
           </div>
@@ -513,12 +414,9 @@
         </div>
 
       </div>
-
     </section>
 
-    <!-- Portfolio -->
     <section class="portfolio-section" id="portfolio">
-
       <div class="portfolio-inner">
 
         <h2 class="portfolio-heading">Portfolio</h2>
@@ -550,7 +448,6 @@
         </div>
 
       </div>
-
     </section>
 
     <div class="ending-space"></div>
@@ -558,20 +455,11 @@
   </main>
 
   <script>
-    const scrollIntro =
-      document.getElementById("scrollIntro");
-
-    const openingVisual =
-      document.getElementById("openingVisual");
-
-    const heroImage =
-      document.getElementById("heroImage");
-
-    const originalPage =
-      document.getElementById("originalPage");
-
-    const scrollMessage =
-      document.getElementById("scrollMessage");
+    const scrollIntro = document.getElementById("scrollIntro");
+    const openingVisual = document.getElementById("openingVisual");
+    const heroImage = document.getElementById("heroImage");
+    const originalPage = document.getElementById("originalPage");
+    const scrollMessage = document.getElementById("scrollMessage");
 
     function clamp(value, minimum, maximum) {
       return Math.min(Math.max(value, minimum), maximum);
@@ -622,26 +510,14 @@
       );
 
       const shrinkProgress = easeInOut(
-        mapRange(
-          progress,
-          0.08,
-          0.72,
-          0,
-          1
-        )
+        mapRange(progress, 0.08, 0.72, 0, 1)
       );
 
       const imageScale =
         1 - shrinkProgress * 0.76;
 
       const imageY =
-        mapRange(
-          progress,
-          0.08,
-          0.72,
-          0,
-          -5
-        );
+        mapRange(progress, 0.08, 0.72, 0, -5);
 
       heroImage.style.transform = `
         translate(-50%, -50%)
@@ -649,63 +525,26 @@
         scale(${imageScale})
       `;
 
-      const openingOpacity =
-        mapRange(
-          progress,
-          0.48,
-          0.82,
-          1,
-          0
-        );
-
       openingVisual.style.opacity =
-        openingOpacity;
-
-      const pageOpacity =
-        mapRange(
-          progress,
-          0.52,
-          0.84,
-          0,
-          1
-        );
-
-      const pageY =
-        mapRange(
-          progress,
-          0.52,
-          0.84,
-          55,
-          0
-        );
+        mapRange(progress, 0.48, 0.82, 1, 0);
 
       originalPage.style.opacity =
-        pageOpacity;
+        mapRange(progress, 0.52, 0.84, 0, 1);
+
+      const pageY =
+        mapRange(progress, 0.52, 0.84, 55, 0);
 
       originalPage.style.transform =
         `translateY(${pageY}px)`;
 
-      const messageOpacity =
-        mapRange(
-          progress,
-          0,
-          0.14,
-          1,
-          0
-        );
-
       scrollMessage.style.opacity =
-        messageOpacity;
+        mapRange(progress, 0, 0.14, 1, 0);
 
       openingVisual.style.pointerEvents =
-        progress > 0.82
-          ? "none"
-          : "auto";
+        progress > 0.82 ? "none" : "auto";
 
       originalPage.style.pointerEvents =
-        progress > 0.72
-          ? "auto"
-          : "none";
+        progress > 0.72 ? "auto" : "none";
     }
 
     let frameRequested = false;
@@ -739,28 +578,28 @@
     const revealCards =
       document.querySelectorAll(".reveal-card");
 
-    const revealObserver =
-      new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry, index) => {
-            if (entry.isIntersecting) {
-              window.setTimeout(() => {
+    if ("IntersectionObserver" in window) {
+      const revealObserver =
+        new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
                 entry.target.classList.add("is-visible");
-              }, index * 120);
+                revealObserver.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.18 }
+        );
 
-              revealObserver.unobserve(entry.target);
-            }
-          });
-        },
-        {
-          threshold: 0.18
-        }
-      );
-
-    revealCards.forEach((card) => {
-      revealObserver.observe(card);
-    });
+      revealCards.forEach((card) => {
+        revealObserver.observe(card);
+      });
+    } else {
+      revealCards.forEach((card) => {
+        card.classList.add("is-visible");
+      });
+    }
   </script>
-
 </body>
 </html>
