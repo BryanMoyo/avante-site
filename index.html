@@ -2,10 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Avante CEIC</title>
 
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
     <link
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@500;600;700&display=swap"
         rel="stylesheet"
@@ -13,8 +25,13 @@
 
     <style>
         :root {
-            --blue: #003f88;
-            --deep-blue: #002f6c;
+            /*
+             * Adjust this value if the blue around the image
+             * does not perfectly match the image background.
+             */
+            --brand-blue: #003f88;
+            --text-blue: #083c85;
+            --body-text: #324158;
             --white: #ffffff;
         }
 
@@ -28,252 +45,230 @@
 
         body {
             margin: 0;
-            background: var(--blue);
-            color: var(--white);
+            background: var(--white);
             overflow-x: hidden;
         }
 
-        .hero {
-            min-height: 100vh;
+        /*
+         * The section is taller than the screen so that the user
+         * has enough scrolling distance to control the animation.
+         */
+        .scroll-intro {
             position: relative;
+            height: 260vh;
+            background: var(--white);
+        }
+
+        /*
+         * This remains fixed in the viewport while the parent
+         * section is being scrolled.
+         */
+        .scene {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            background: var(--brand-blue);
+        }
+
+        /*
+         * The original white page sits behind the opening image.
+         */
+        .original-page {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 60px 24px;
-            overflow: hidden;
-            background:
-                radial-gradient(
-                    circle at 50% 40%,
-                    rgba(255, 255, 255, 0.08),
-                    transparent 40%
-                ),
-                linear-gradient(
-                    135deg,
-                    var(--deep-blue),
-                    var(--blue)
-                );
-        }
 
-        .hero::before,
-        .hero::after {
-            content: "";
-            position: absolute;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 50%;
+            padding: 50px 24px;
+            background: var(--white);
+
+            opacity: 0;
+            transform: translateY(55px);
             pointer-events: none;
         }
 
-        .hero::before {
-            width: 650px;
-            height: 650px;
-            top: -320px;
-            right: -240px;
+        .page-content {
+            width: min(900px, 100%);
+            text-align: center;
         }
 
-        .hero::after {
-            width: 420px;
-            height: 420px;
-            bottom: -250px;
-            left: -170px;
-        }
+        .company-name {
+            margin: 0 0 32px;
 
-        .hero-content {
-            width: min(1200px, 100%);
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            align-items: center;
-            gap: 70px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .copy {
-            opacity: 0;
-            transform: translateY(40px);
-            animation: revealCopy 1.1s ease forwards;
-            animation-delay: 0.25s;
-        }
-
-        .eyebrow {
-            margin: 0 0 20px;
-            font-family: "Montserrat", sans-serif;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 0.24em;
-            text-transform: uppercase;
-            opacity: 0.75;
-        }
-
-        h1 {
-            max-width: 650px;
-            margin: 0;
             font-family: "Cormorant Garamond", serif;
-            font-size: clamp(56px, 7vw, 105px);
+            font-size: clamp(58px, 9vw, 126px);
             font-weight: 400;
-            line-height: 0.92;
-            letter-spacing: -0.04em;
+            line-height: 0.9;
+            letter-spacing: -0.055em;
+
+            color: var(--text-blue);
         }
 
-        .description {
-            max-width: 590px;
-            margin: 32px 0 0;
+        .paragraph {
+            max-width: 800px;
+            margin: 0 auto;
+
             font-family: "Cormorant Garamond", serif;
-            font-size: clamp(20px, 2vw, 27px);
+            font-size: clamp(21px, 2.4vw, 31px);
             font-weight: 300;
             line-height: 1.45;
-            color: rgba(255, 255, 255, 0.84);
+
+            color: var(--body-text);
         }
 
-        .description strong {
-            color: var(--white);
-            font-weight: 600;
+        .highlight {
+            color: var(--text-blue);
+            font-weight: 700;
         }
 
-        .contact {
+        .email {
             display: inline-block;
-            margin-top: 42px;
-            font-family: "Montserrat", sans-serif;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            color: var(--white);
-            text-decoration: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+            margin-top: 48px;
             padding-bottom: 7px;
+
+            font-family: "Montserrat", sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+
+            color: var(--text-blue);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(8, 60, 133, 0.45);
+
             transition:
-                opacity 0.3s ease,
-                padding-bottom 0.3s ease;
+                opacity 250ms ease,
+                border-color 250ms ease;
         }
 
-        .contact:hover {
-            opacity: 0.7;
-            padding-bottom: 11px;
+        .email:hover {
+            opacity: 0.65;
+            border-color: var(--text-blue);
         }
 
-        .emblem-wrap {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transform: scale(0.84) rotate(-3deg);
-            animation: revealEmblem 1.4s cubic-bezier(.16, 1, .3, 1) forwards;
-            animation-delay: 0.15s;
-        }
-
-        .emblem-wrap::before {
-            content: "";
+        /*
+         * Full-screen opening layer.
+         */
+        .opening-visual {
             position: absolute;
-            width: 82%;
-            aspect-ratio: 1;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.09);
-            filter: blur(35px);
-            animation: pulse 5s ease-in-out infinite;
-        }
-
-        .emblem {
-            width: min(100%, 620px);
-            height: auto;
-            display: block;
-            position: relative;
+            inset: 0;
             z-index: 2;
-            filter: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.18));
-            animation: float 6s ease-in-out infinite;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--brand-blue);
+            transform-origin: center;
+            will-change: opacity, background-color;
         }
 
-        .scroll-label {
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            display: block;
+
+            object-fit: cover;
+            object-position: center;
+
+            transform-origin: center;
+            will-change: transform, opacity;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        /*
+         * Small instruction visible only at the beginning.
+         */
+        .scroll-message {
             position: absolute;
-            left: 24px;
+            z-index: 3;
             bottom: 28px;
+            left: 50%;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+
+            transform: translateX(-50%);
+
             font-family: "Montserrat", sans-serif;
             font-size: 10px;
-            letter-spacing: 0.22em;
+            font-weight: 600;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.55);
-            writing-mode: vertical-rl;
+
+            color: rgba(255, 255, 255, 0.7);
+            will-change: opacity;
         }
 
-        @keyframes revealCopy {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .scroll-line {
+            width: 1px;
+            height: 42px;
+
+            background: rgba(255, 255, 255, 0.55);
+
+            animation: scrollPulse 1.8s ease-in-out infinite;
+            transform-origin: top;
         }
 
-        @keyframes revealEmblem {
-            to {
-                opacity: 1;
-                transform: scale(1) rotate(0deg);
-            }
-        }
-
-        @keyframes float {
+        @keyframes scrollPulse {
             0%,
             100% {
-                transform: translateY(0);
+                transform: scaleY(0.4);
+                opacity: 0.35;
             }
 
             50% {
-                transform: translateY(-14px);
-            }
-        }
-
-        @keyframes pulse {
-            0%,
-            100% {
-                transform: scale(0.95);
-                opacity: 0.65;
-            }
-
-            50% {
-                transform: scale(1.08);
+                transform: scaleY(1);
                 opacity: 1;
             }
         }
 
-        @media (max-width: 850px) {
-            .hero {
-                min-height: auto;
-                padding: 90px 24px 70px;
+        /*
+         * Keeps the final white presentation visible after
+         * the transformation has completed.
+         */
+        .ending-space {
+            min-height: 35vh;
+            background: var(--white);
+        }
+
+        @media (max-width: 700px) {
+            .scroll-intro {
+                height: 230vh;
             }
 
-            .hero-content {
-                grid-template-columns: 1fr;
-                gap: 46px;
-                text-align: center;
+            .original-page {
+                padding: 40px 22px;
             }
 
-            .copy {
-                order: 2;
+            .company-name {
+                margin-bottom: 25px;
             }
 
-            .emblem-wrap {
-                order: 1;
+            .paragraph {
+                font-size: clamp(20px, 6vw, 27px);
             }
 
-            .emblem {
-                width: min(90vw, 480px);
-            }
-
-            h1,
-            .description {
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .scroll-label {
-                display: none;
+            .email {
+                margin-top: 36px;
+                font-size: 12px;
             }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                scroll-behavior: auto !important;
+            html {
+                scroll-behavior: auto;
+            }
+
+            .scroll-line {
+                animation: none;
             }
         }
     </style>
@@ -281,58 +276,209 @@
 
 <body>
 
-<section class="hero">
+    <main>
 
-    <div class="hero-content">
+        <section class="scroll-intro" id="scrollIntro">
 
-        <div class="copy">
-            <p class="eyebrow">Investment Holding Company</p>
+            <div class="scene" id="scene">
 
-            <h1>Avante CEIC</h1>
+                <!-- Original white Avante page -->
+                <div class="original-page" id="originalPage">
 
-            <p class="description">
-                <strong>Avante CEIC Limited</strong> is a privately owned
-                investment holding company focused on long-term investments
-                that enhance lives and drive sustainable development across
-                emerging markets.
-            </p>
+                    <div class="page-content">
 
-            <a class="contact" href="mailto:info@avanteceic.com">
-                info@avanteceic.com
-            </a>
-        </div>
+                        <h1 class="company-name">
+                            Avante CEIC
+                        </h1>
 
-        <div class="emblem-wrap">
-            <img
-                class="emblem"
-                src="great-zimbabwe.png"
-                alt="Great Zimbabwe emblem"
-            >
-        </div>
+                        <p class="paragraph">
+                            <span class="highlight">
+                                Avante CEIC Limited
+                            </span>
+                            is a privately owned investment holding company
+                            focused on long-term investments that enhance lives
+                            and drive sustainable development across emerging
+                            markets.
+                        </p>
 
-    </div>
+                        <a
+                            class="email"
+                            href="mailto:info@avanteceic.com"
+                        >
+                            info@avanteceic.com
+                        </a>
 
-    <span class="scroll-label">Avante CEIC Limited</span>
+                    </div>
 
-</section>
+                </div>
 
-<script>
-    const emblem = document.querySelector(".emblem");
+                <!-- Full-screen Great Zimbabwe opening -->
+                <div class="opening-visual" id="openingVisual">
 
-    window.addEventListener("mousemove", function (event) {
-        if (window.innerWidth <= 850) return;
+                    <img
+                        class="hero-image"
+                        id="heroImage"
+                        src="great-zimbabwe.png"
+                        alt="Great Zimbabwe illustration"
+                    >
 
-        const x = (event.clientX / window.innerWidth - 0.5) * 12;
-        const y = (event.clientY / window.innerHeight - 0.5) * 12;
+                    <div class="scroll-message" id="scrollMessage">
+                        <span>Scroll to enter</span>
+                        <span class="scroll-line"></span>
+                    </div>
 
-        emblem.style.transform =
-            `translate3d(${x}px, ${y}px, 0)`;
-    });
+                </div>
 
-    window.addEventListener("mouseleave", function () {
-        emblem.style.transform = "translate3d(0, 0, 0)";
-    });
-</script>
+            </div>
+
+        </section>
+
+        <div class="ending-space"></div>
+
+    </main>
+
+    <script>
+        const scrollIntro = document.getElementById("scrollIntro");
+        const openingVisual = document.getElementById("openingVisual");
+        const heroImage = document.getElementById("heroImage");
+        const originalPage = document.getElementById("originalPage");
+        const scrollMessage = document.getElementById("scrollMessage");
+
+        const clamp = (number, minimum, maximum) => {
+            return Math.min(Math.max(number, minimum), maximum);
+        };
+
+        const mapRange = (
+            value,
+            inputMinimum,
+            inputMaximum,
+            outputMinimum,
+            outputMaximum
+        ) => {
+            const mapped =
+                outputMinimum +
+                (
+                    (value - inputMinimum) /
+                    (inputMaximum - inputMinimum)
+                ) *
+                (outputMaximum - outputMinimum);
+
+            return clamp(
+                mapped,
+                Math.min(outputMinimum, outputMaximum),
+                Math.max(outputMinimum, outputMaximum)
+            );
+        };
+
+        /*
+         * A smoother alternative to ordinary linear movement.
+         */
+        const easeInOut = (value) => {
+            return value < 0.5
+                ? 4 * value * value * value
+                : 1 - Math.pow(-2 * value + 2, 3) / 2;
+        };
+
+        function updateAnimation() {
+            const sectionTop = scrollIntro.offsetTop;
+            const scrollDistance =
+                scrollIntro.offsetHeight - window.innerHeight;
+
+            const distanceScrolled = window.scrollY - sectionTop;
+
+            const rawProgress = clamp(
+                distanceScrolled / scrollDistance,
+                0,
+                1
+            );
+
+            /*
+             * Image shrinking begins immediately.
+             */
+            const scaleProgress = easeInOut(
+                mapRange(rawProgress, 0, 0.72, 0, 1)
+            );
+
+            const imageScale =
+                1 - scaleProgress * 0.78;
+
+            /*
+             * Slight upward movement makes the transition feel
+             * less static.
+             */
+            const imageY =
+                mapRange(rawProgress, 0, 0.72, 0, -8);
+
+            heroImage.style.transform =
+                `translateY(${imageY}vh) scale(${imageScale})`;
+
+            /*
+             * Fade the blue image near the final part of the animation.
+             */
+            const imageOpacity =
+                mapRange(rawProgress, 0.48, 0.82, 1, 0);
+
+            openingVisual.style.opacity = imageOpacity;
+
+            /*
+             * Reveal the original white page while the image disappears.
+             */
+            const contentOpacity =
+                mapRange(rawProgress, 0.52, 0.84, 0, 1);
+
+            const contentY =
+                mapRange(rawProgress, 0.52, 0.84, 55, 0);
+
+            originalPage.style.opacity = contentOpacity;
+            originalPage.style.transform =
+                `translateY(${contentY}px)`;
+
+            /*
+             * Remove the scroll instruction quickly.
+             */
+            const messageOpacity =
+                mapRange(rawProgress, 0, 0.13, 1, 0);
+
+            scrollMessage.style.opacity = messageOpacity;
+
+            /*
+             * Prevent the invisible opening layer from blocking links.
+             */
+            openingVisual.style.pointerEvents =
+                rawProgress > 0.82 ? "none" : "auto";
+
+            originalPage.style.pointerEvents =
+                rawProgress > 0.72 ? "auto" : "none";
+        }
+
+        let animationFrameRequested = false;
+
+        function requestAnimationUpdate() {
+            if (animationFrameRequested) {
+                return;
+            }
+
+            animationFrameRequested = true;
+
+            window.requestAnimationFrame(() => {
+                updateAnimation();
+                animationFrameRequested = false;
+            });
+        }
+
+        window.addEventListener(
+            "scroll",
+            requestAnimationUpdate,
+            { passive: true }
+        );
+
+        window.addEventListener(
+            "resize",
+            requestAnimationUpdate
+        );
+
+        updateAnimation();
+    </script>
 
 </body>
 </html>
