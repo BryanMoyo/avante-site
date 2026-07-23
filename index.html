@@ -1,605 +1,750 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Avante CEIC</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@500;600;700&display=swap"
-        rel="stylesheet"
-    >
-
-    <style>
-        :root {
-            /* Exact blue from the Great Zimbabwe image */
-            --brand-blue: #033b85;
-
-            --text-blue: #083c85;
-            --body-text: #324158;
-            --white: #ffffff;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            margin: 0;
-            overflow-x: hidden;
-            background: var(--white);
-        }
-
-        /*
-         * Gives the scroll animation enough distance.
-         */
-        .scroll-intro {
-            position: relative;
-            height: 260vh;
-            background: var(--white);
-        }
-
-        /*
-         * Keeps the animation fixed in the viewport
-         * while the user scrolls.
-         */
-        .scene {
-            position: sticky;
-            top: 0;
-
-            width: 100%;
-            height: 100vh;
-
-            overflow: hidden;
-            background: var(--brand-blue);
-        }
-
-        /*
-         * The original white page underneath the intro.
-         */
-        .original-page {
-            position: absolute;
-            inset: 0;
-            z-index: 1;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            padding: 50px 24px;
-
-            background: var(--white);
-
-            opacity: 0;
-            transform: translateY(55px);
-
-            pointer-events: none;
-            will-change: opacity, transform;
-        }
-
-        .page-content {
-            width: min(900px, 100%);
-            text-align: center;
-        }
-
-        /*
-         * This replaces the written "Avante CEIC" heading.
-         */
-        .avante-logo {
-            display: block;
-
-            width: min(500px, 80vw);
-            max-height: 220px;
-            height: auto;
-
-            object-fit: contain;
-
-            margin: 0 auto 35px;
-        }
-
-        .paragraph {
-            max-width: 800px;
-            margin: 0 auto;
-
-            font-family: "Cormorant Garamond", serif;
-            font-size: clamp(21px, 2.4vw, 31px);
-            font-weight: 300;
-            line-height: 1.45;
-
-            color: var(--body-text);
-        }
-
-        .highlight {
-            color: var(--text-blue);
-            font-weight: 700;
-        }
-
-        .email {
-            display: inline-block;
-
-            margin-top: 46px;
-            padding-bottom: 7px;
-
-            font-family: "Montserrat", sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 0.06em;
-
-            color: var(--text-blue);
-            text-decoration: none;
-
-            border-bottom:
-                1px solid rgba(8, 60, 133, 0.45);
-
-            transition:
-                opacity 250ms ease,
-                border-color 250ms ease,
-                padding-bottom 250ms ease;
-        }
-
-        .email:hover {
-            opacity: 0.68;
-            border-color: var(--text-blue);
-            padding-bottom: 11px;
-        }
-
-        /*
-         * Full-screen blue opening layer.
-         */
-        .opening-visual {
-            position: absolute;
-            inset: 0;
-            z-index: 2;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            overflow: hidden;
-
-            /*
-             * This now matches the image blue exactly.
-             */
-            background: var(--brand-blue);
-
-            will-change: opacity;
-        }
-
-        /*
-         * Great Zimbabwe image.
-         *
-         * "contain" prevents it from being cropped.
-         * The matching blue fills any remaining viewport space.
-         */
-        .hero-image {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            z-index: 1;
-
-            width: min(100vw, 100vh);
-            height: min(100vw, 100vh);
-
-            display: block;
-
-            object-fit: contain;
-            object-position: center;
-
-            user-select: none;
-            pointer-events: none;
-
-            transform:
-                translate(-50%, -50%)
-                scale(1);
-
-            transform-origin: center;
-            will-change: transform;
-        }
-
-        /*
-         * Always appears above the Great Zimbabwe image.
-         */
-        .scroll-message {
-            position: absolute;
-            left: 50%;
-            bottom: 24px;
-            z-index: 20;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 9px;
-
-            transform: translateX(-50%);
-
-            font-family: "Montserrat", sans-serif;
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            white-space: nowrap;
-
-            color: rgba(255, 255, 255, 0.95);
-
-            text-shadow:
-                0 2px 14px rgba(0, 0, 0, 0.45);
-
-            pointer-events: none;
-            will-change: opacity;
-        }
-
-        .scroll-line {
-            width: 1px;
-            height: 35px;
-
-            background: rgba(255, 255, 255, 0.75);
-
-            animation:
-                scrollPulse 1.8s ease-in-out infinite;
-
-            transform-origin: top;
-        }
-
-        @keyframes scrollPulse {
-            0%,
-            100% {
-                transform: scaleY(0.35);
-                opacity: 0.3;
-            }
-
-            50% {
-                transform: scaleY(1);
-                opacity: 1;
-            }
-        }
-
-        .ending-space {
-            min-height: 35vh;
-            background: var(--white);
-        }
-
-        @media (max-width: 700px) {
-            .scroll-intro {
-                height: 235vh;
-            }
-
-            .original-page {
-                padding: 40px 22px;
-            }
-
-            .avante-logo {
-                width: min(420px, 84vw);
-                max-height: 170px;
-                margin-bottom: 28px;
-            }
-
-            .paragraph {
-                font-size: clamp(20px, 6vw, 27px);
-            }
-
-            .email {
-                margin-top: 36px;
-                font-size: 12px;
-            }
-
-            .hero-image {
-                width: 94vw;
-                height: 94vw;
-                max-height: 80vh;
-            }
-
-            .scroll-message {
-                bottom: 16px;
-            }
-
-            .scroll-line {
-                height: 28px;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            html {
-                scroll-behavior: auto;
-            }
-
-            .scroll-line {
-                animation: none;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Avante CEIC</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --brand-blue: #033b85;
+      --text-blue: #083c85;
+      --body-text: #324158;
+      --white: #ffffff;
+      --line-blue: rgba(3, 59, 133, 0.10);
+      --border-blue: rgba(3, 59, 133, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      background: var(--white);
+      color: var(--body-text);
+    }
+
+    /* =========================
+       OPENING SCROLL EXPERIENCE
+       ========================= */
+
+    .scroll-intro {
+      position: relative;
+      height: 260vh;
+      background: var(--white);
+    }
+
+    .scene {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--brand-blue);
+    }
+
+    .opening-visual {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      overflow: hidden;
+      background: var(--brand-blue);
+
+      will-change: opacity;
+    }
+
+    .hero-image {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 1;
+
+      width: min(100vw, 100vh);
+      height: min(100vw, 100vh);
+
+      display: block;
+      object-fit: contain;
+      object-position: center;
+
+      user-select: none;
+      pointer-events: none;
+
+      transform: translate(-50%, -50%) scale(1);
+      transform-origin: center;
+      will-change: transform;
+    }
+
+    .scroll-message {
+      position: absolute;
+      left: 50%;
+      bottom: 24px;
+      z-index: 20;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 9px;
+
+      transform: translateX(-50%);
+
+      font-family: "Montserrat", sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      white-space: nowrap;
+
+      color: rgba(255, 255, 255, 0.96);
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.42);
+
+      pointer-events: none;
+      will-change: opacity;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 35px;
+      background: rgba(255, 255, 255, 0.78);
+      animation: scrollPulse 1.8s ease-in-out infinite;
+      transform-origin: top;
+    }
+
+    @keyframes scrollPulse {
+      0%,
+      100% {
+        transform: scaleY(0.35);
+        opacity: 0.3;
+      }
+
+      50% {
+        transform: scaleY(1);
+        opacity: 1;
+      }
+    }
+
+    /* =========================
+       WHITE LANDING PAGE
+       ========================= */
+
+    .original-page {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 50px 24px;
+      background: var(--white);
+
+      opacity: 0;
+      transform: translateY(55px);
+
+      pointer-events: none;
+      will-change: opacity, transform;
+    }
+
+    .page-content {
+      width: min(900px, 100%);
+      text-align: center;
+    }
+
+    .avante-logo {
+      display: block;
+      width: min(500px, 80vw);
+      max-height: 220px;
+      height: auto;
+      object-fit: contain;
+      margin: 0 auto 35px;
+    }
+
+    .paragraph {
+      max-width: 800px;
+      margin: 0 auto;
+
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(21px, 2.4vw, 31px);
+      font-weight: 300;
+      line-height: 1.45;
+
+      color: var(--body-text);
+    }
+
+    .highlight {
+      color: var(--text-blue);
+      font-weight: 700;
+    }
+
+    .email {
+      display: inline-block;
+      margin-top: 46px;
+      padding-bottom: 7px;
+
+      font-family: "Montserrat", sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+
+      color: var(--text-blue);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(8, 60, 133, 0.45);
+
+      transition:
+        opacity 250ms ease,
+        border-color 250ms ease,
+        padding-bottom 250ms ease;
+    }
+
+    .email:hover {
+      opacity: 0.68;
+      border-color: var(--text-blue);
+      padding-bottom: 11px;
+    }
+
+    /* =========================
+       PORTFOLIO SECTION
+       ========================= */
+
+    .portfolio-section {
+      position: relative;
+      overflow: hidden;
+      padding: 120px 24px 130px;
+      background: var(--white);
+      border-top: 1px solid rgba(3, 59, 133, 0.08);
+    }
+
+    .portfolio-pattern {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 1;
+
+      background-image:
+        linear-gradient(30deg, transparent 48%, var(--line-blue) 49%, var(--line-blue) 51%, transparent 52%),
+        linear-gradient(-30deg, transparent 48%, var(--line-blue) 49%, var(--line-blue) 51%, transparent 52%),
+        radial-gradient(circle at 50% 0%, transparent 0 48px, var(--line-blue) 49px 50px, transparent 51px),
+        radial-gradient(circle at 50% 100%, transparent 0 48px, var(--line-blue) 49px 50px, transparent 51px);
+
+      background-size:
+        180px 180px,
+        180px 180px,
+        180px 180px,
+        180px 180px;
+
+      background-position:
+        0 0,
+        0 0,
+        0 0,
+        90px 90px;
+    }
+
+    .portfolio-inner {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, 100%);
+      margin: 0 auto;
+    }
+
+    .portfolio-heading {
+      margin: 0 0 18px;
+
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(48px, 7vw, 84px);
+      font-weight: 400;
+      line-height: 1;
+
+      color: var(--brand-blue);
+      text-align: center;
+    }
+
+    .portfolio-subheading {
+      max-width: 720px;
+      margin: 0 auto 58px;
+
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(19px, 2vw, 25px);
+      font-weight: 300;
+      line-height: 1.5;
+
+      color: var(--body-text);
+      text-align: center;
+    }
+
+    .portfolio-grid {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .portfolio-card {
+      width: 280px;
+      height: 170px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 28px;
+
+      background: var(--white);
+      border: 1px solid rgba(3, 59, 133, 0.14);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      box-shadow: 0 10px 30px rgba(3, 59, 133, 0.05);
+
+      transform: translateY(25px);
+      opacity: 0;
+
+      transition:
+        transform 350ms ease,
+        box-shadow 350ms ease,
+        border-color 350ms ease,
+        opacity 700ms ease;
+    }
+
+    .portfolio-card.is-visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .portfolio-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      border-color: var(--brand-blue);
+      box-shadow:
+        0 0 22px rgba(3, 59, 133, 0.18),
+        0 16px 45px rgba(3, 59, 133, 0.14);
+    }
+
+    .portfolio-logo {
+      display: block;
+      width: 180px;
+      max-width: 100%;
+      max-height: 90px;
+      object-fit: contain;
+
+      transition: transform 350ms ease;
+    }
+
+    .portfolio-card:hover .portfolio-logo {
+      transform: scale(1.05);
+    }
+
+    .ending-space {
+      min-height: 10vh;
+      background: var(--white);
+    }
+
+    /* =========================
+       RESPONSIVE
+       ========================= */
+
+    @media (max-width: 800px) {
+      .portfolio-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .portfolio-card {
+        width: min(280px, 100%);
+        height: 160px;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .scroll-intro {
+        height: 235vh;
+      }
+
+      .original-page {
+        padding: 40px 22px;
+      }
+
+      .avante-logo {
+        width: min(420px, 84vw);
+        max-height: 170px;
+        margin-bottom: 28px;
+      }
+
+      .paragraph {
+        font-size: clamp(20px, 6vw, 27px);
+      }
+
+      .email {
+        margin-top: 36px;
+        font-size: 12px;
+      }
+
+      .hero-image {
+        width: 94vw;
+        height: 94vw;
+        max-height: 80vh;
+      }
+
+      .scroll-message {
+        bottom: 16px;
+      }
+
+      .scroll-line {
+        height: 28px;
+      }
+
+      .portfolio-section {
+        padding: 90px 18px 100px;
+      }
+
+      .portfolio-card {
+        padding: 28px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .scroll-line {
+        animation: none;
+      }
+
+      .portfolio-card {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-    <main>
+  <main>
 
-        <section class="scroll-intro" id="scrollIntro">
+    <section class="scroll-intro" id="scrollIntro">
 
-            <div class="scene">
+      <div class="scene">
 
-                <!-- White Avante page -->
-                <div class="original-page" id="originalPage">
+        <!-- White Avante page -->
+        <div class="original-page" id="originalPage">
 
-                    <div class="page-content">
+          <div class="page-content">
 
-                        <!--
-                            This image replaces the written
-                            "Avante CEIC" heading.
-                        -->
-                        <img
-                            class="avante-logo"
-                            src="your-image.png"
-                            alt="Avante CEIC"
-                        >
+            <img
+              class="avante-logo"
+              src="your-image.png"
+              alt="Avante CEIC"
+            >
 
-                        <p class="paragraph">
-                            <span class="highlight">
-                                Avante CEIC Limited
-                            </span>
-                            is a privately owned investment holding
-                            company focused on long-term investments
-                            that enhance lives and drive sustainable
-                            development across emerging markets.
-                        </p>
+            <p class="paragraph">
+              <span class="highlight">Avante CEIC Limited</span>
+              is a privately owned investment holding company focused on
+              long-term investments that enhance lives and drive sustainable
+              development across emerging markets.
+            </p>
 
-                        <a
-                            class="email"
-                            href="mailto:info@avanteceic.com"
-                        >
-                            info@avanteceic.com
-                        </a>
+            <a
+              class="email"
+              href="mailto:info@avanteceic.com"
+            >
+              info@avanteceic.com
+            </a>
 
-                    </div>
+          </div>
 
-                </div>
+        </div>
 
-                <!-- Full-screen Great Zimbabwe opening -->
-                <div
-                    class="opening-visual"
-                    id="openingVisual"
-                >
+        <!-- Full-screen Great Zimbabwe opening -->
+        <div
+          class="opening-visual"
+          id="openingVisual"
+        >
 
-                    <img
-                        class="hero-image"
-                        id="heroImage"
-                        src="great-zimbabwe.png"
-                        alt="Great Zimbabwe illustration"
-                    >
+          <img
+            class="hero-image"
+            id="heroImage"
+            src="great-zimbabwe.png"
+            alt="Great Zimbabwe illustration"
+          >
 
-                    <div
-                        class="scroll-message"
-                        id="scrollMessage"
-                    >
-                        <span>Scroll to enter</span>
-                        <span class="scroll-line"></span>
-                    </div>
+          <div
+            class="scroll-message"
+            id="scrollMessage"
+          >
+            <span>Scroll to enter</span>
+            <span class="scroll-line"></span>
+          </div>
 
-                </div>
+        </div>
 
-            </div>
+      </div>
 
-        </section>
+    </section>
 
-        <div class="ending-space"></div>
+    <!-- Portfolio -->
+    <section class="portfolio-section" id="portfolio">
 
-    </main>
+      <div class="portfolio-inner">
 
-    <script>
-        const scrollIntro =
-            document.getElementById("scrollIntro");
+        <h2 class="portfolio-heading">Portfolio</h2>
 
-        const openingVisual =
-            document.getElementById("openingVisual");
+        <p class="portfolio-subheading">
+          Businesses built to improve access, efficiency and long-term value
+          across emerging markets.
+        </p>
 
-        const heroImage =
-            document.getElementById("heroImage");
+        <div class="portfolio-grid">
 
-        const originalPage =
-            document.getElementById("originalPage");
+          <article class="portfolio-card reveal-card">
+            <img
+              class="portfolio-logo"
+              src="pharmaplus-logo.png"
+              alt="PharmaPlus"
+            >
+          </article>
 
-        const scrollMessage =
-            document.getElementById("scrollMessage");
+          <article class="portfolio-card reveal-card">
+            <img
+              class="portfolio-logo"
+              src="novalic-logo.png"
+              alt="Novalic Health Systems"
+            >
+          </article>
 
-        function clamp(value, minimum, maximum) {
-            return Math.min(
-                Math.max(value, minimum),
-                maximum
-            );
-        }
+        </div>
 
-        function mapRange(
-            value,
-            inputMinimum,
-            inputMaximum,
-            outputMinimum,
-            outputMaximum
-        ) {
-            const percentage =
-                (value - inputMinimum) /
-                (inputMaximum - inputMinimum);
+      </div>
 
-            const mapped =
-                outputMinimum +
-                percentage *
-                (outputMaximum - outputMinimum);
+    </section>
 
-            return clamp(
-                mapped,
-                Math.min(outputMinimum, outputMaximum),
-                Math.max(outputMinimum, outputMaximum)
-            );
-        }
+    <div class="ending-space"></div>
 
-        function easeInOut(value) {
-            return value < 0.5
-                ? 4 * value * value * value
-                : 1 -
-                    Math.pow(-2 * value + 2, 3) / 2;
-        }
+  </main>
 
-        function updateAnimation() {
-            const scrollDistance =
-                scrollIntro.offsetHeight -
-                window.innerHeight;
+  <script>
+    const scrollIntro =
+      document.getElementById("scrollIntro");
 
-            const distanceScrolled =
-                window.scrollY -
-                scrollIntro.offsetTop;
+    const openingVisual =
+      document.getElementById("openingVisual");
 
-            const progress = clamp(
-                distanceScrolled / scrollDistance,
-                0,
-                1
-            );
+    const heroImage =
+      document.getElementById("heroImage");
 
-            /*
-             * Keep the full image visible briefly,
-             * then begin shrinking it.
-             */
-            const shrinkProgress = easeInOut(
-                mapRange(
-                    progress,
-                    0.08,
-                    0.72,
-                    0,
-                    1
-                )
-            );
+    const originalPage =
+      document.getElementById("originalPage");
 
-            const imageScale =
-                1 - shrinkProgress * 0.76;
+    const scrollMessage =
+      document.getElementById("scrollMessage");
 
-            const imageY =
-                mapRange(
-                    progress,
-                    0.08,
-                    0.72,
-                    0,
-                    -5
-                );
+    function clamp(value, minimum, maximum) {
+      return Math.min(Math.max(value, minimum), maximum);
+    }
 
-            heroImage.style.transform = `
-                translate(-50%, -50%)
-                translateY(${imageY}vh)
-                scale(${imageScale})
-            `;
+    function mapRange(
+      value,
+      inputMinimum,
+      inputMaximum,
+      outputMinimum,
+      outputMaximum
+    ) {
+      const percentage =
+        (value - inputMinimum) /
+        (inputMaximum - inputMinimum);
 
-            /*
-             * Fade out the complete blue opening layer.
-             */
-            const openingOpacity =
-                mapRange(
-                    progress,
-                    0.48,
-                    0.82,
-                    1,
-                    0
-                );
+      const mapped =
+        outputMinimum +
+        percentage *
+        (outputMaximum - outputMinimum);
 
-            openingVisual.style.opacity =
-                openingOpacity;
+      return clamp(
+        mapped,
+        Math.min(outputMinimum, outputMaximum),
+        Math.max(outputMinimum, outputMaximum)
+      );
+    }
 
-            /*
-             * Reveal the white Avante page.
-             */
-            const pageOpacity =
-                mapRange(
-                    progress,
-                    0.52,
-                    0.84,
-                    0,
-                    1
-                );
+    function easeInOut(value) {
+      return value < 0.5
+        ? 4 * value * value * value
+        : 1 - Math.pow(-2 * value + 2, 3) / 2;
+    }
 
-            const pageY =
-                mapRange(
-                    progress,
-                    0.52,
-                    0.84,
-                    55,
-                    0
-                );
+    function updateAnimation() {
+      const scrollDistance =
+        scrollIntro.offsetHeight -
+        window.innerHeight;
 
-            originalPage.style.opacity =
-                pageOpacity;
+      const distanceScrolled =
+        window.scrollY -
+        scrollIntro.offsetTop;
 
-            originalPage.style.transform =
-                `translateY(${pageY}px)`;
+      const progress = clamp(
+        distanceScrolled / scrollDistance,
+        0,
+        1
+      );
 
-            /*
-             * Hide "Scroll to enter" once scrolling begins.
-             */
-            const messageOpacity =
-                mapRange(
-                    progress,
-                    0,
-                    0.14,
-                    1,
-                    0
-                );
+      const shrinkProgress = easeInOut(
+        mapRange(
+          progress,
+          0.08,
+          0.72,
+          0,
+          1
+        )
+      );
 
-            scrollMessage.style.opacity =
-                messageOpacity;
+      const imageScale =
+        1 - shrinkProgress * 0.76;
 
-            /*
-             * Prevent hidden layers from blocking the email link.
-             */
-            openingVisual.style.pointerEvents =
-                progress > 0.82
-                    ? "none"
-                    : "auto";
-
-            originalPage.style.pointerEvents =
-                progress > 0.72
-                    ? "auto"
-                    : "none";
-        }
-
-        let frameRequested = false;
-
-        function requestAnimationUpdate() {
-            if (frameRequested) {
-                return;
-            }
-
-            frameRequested = true;
-
-            window.requestAnimationFrame(() => {
-                updateAnimation();
-                frameRequested = false;
-            });
-        }
-
-        window.addEventListener(
-            "scroll",
-            requestAnimationUpdate,
-            { passive: true }
+      const imageY =
+        mapRange(
+          progress,
+          0.08,
+          0.72,
+          0,
+          -5
         );
 
-        window.addEventListener(
-            "resize",
-            requestAnimationUpdate
+      heroImage.style.transform = `
+        translate(-50%, -50%)
+        translateY(${imageY}vh)
+        scale(${imageScale})
+      `;
+
+      const openingOpacity =
+        mapRange(
+          progress,
+          0.48,
+          0.82,
+          1,
+          0
         );
 
+      openingVisual.style.opacity =
+        openingOpacity;
+
+      const pageOpacity =
+        mapRange(
+          progress,
+          0.52,
+          0.84,
+          0,
+          1
+        );
+
+      const pageY =
+        mapRange(
+          progress,
+          0.52,
+          0.84,
+          55,
+          0
+        );
+
+      originalPage.style.opacity =
+        pageOpacity;
+
+      originalPage.style.transform =
+        `translateY(${pageY}px)`;
+
+      const messageOpacity =
+        mapRange(
+          progress,
+          0,
+          0.14,
+          1,
+          0
+        );
+
+      scrollMessage.style.opacity =
+        messageOpacity;
+
+      openingVisual.style.pointerEvents =
+        progress > 0.82
+          ? "none"
+          : "auto";
+
+      originalPage.style.pointerEvents =
+        progress > 0.72
+          ? "auto"
+          : "none";
+    }
+
+    let frameRequested = false;
+
+    function requestAnimationUpdate() {
+      if (frameRequested) {
+        return;
+      }
+
+      frameRequested = true;
+
+      window.requestAnimationFrame(() => {
         updateAnimation();
-    </script>
+        frameRequested = false;
+      });
+    }
+
+    window.addEventListener(
+      "scroll",
+      requestAnimationUpdate,
+      { passive: true }
+    );
+
+    window.addEventListener(
+      "resize",
+      requestAnimationUpdate
+    );
+
+    updateAnimation();
+
+    const revealCards =
+      document.querySelectorAll(".reveal-card");
+
+    const revealObserver =
+      new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+              window.setTimeout(() => {
+                entry.target.classList.add("is-visible");
+              }, index * 120);
+
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.18
+        }
+      );
+
+    revealCards.forEach((card) => {
+      revealObserver.observe(card);
+    });
+  </script>
 
 </body>
 </html>
