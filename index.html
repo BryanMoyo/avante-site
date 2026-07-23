@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
@@ -10,11 +11,13 @@
     <title>Avante CEIC</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link
         rel="preconnect"
         href="https://fonts.gstatic.com"
         crossorigin
     >
+
     <link
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@500;600;700&display=swap"
         rel="stylesheet"
@@ -22,11 +25,9 @@
 
     <style>
         :root {
-            /*
-             * This should match the blue in the image.
-             * Adjust slightly if you still see a visible edge.
-             */
-            --brand-blue: #003e8a;
+            /* Exact blue from the Great Zimbabwe image */
+            --brand-blue: #033b85;
+
             --text-blue: #083c85;
             --body-text: #324158;
             --white: #ffffff;
@@ -42,12 +43,12 @@
 
         body {
             margin: 0;
-            background: var(--white);
             overflow-x: hidden;
+            background: var(--white);
         }
 
         /*
-         * Provides enough scroll distance for the animation.
+         * Gives the scroll animation enough distance.
          */
         .scroll-intro {
             position: relative;
@@ -56,19 +57,22 @@
         }
 
         /*
-         * Stays fixed while the user scrolls through the intro.
+         * Keeps the animation fixed in the viewport
+         * while the user scrolls.
          */
         .scene {
             position: sticky;
             top: 0;
+
             width: 100%;
             height: 100vh;
+
             overflow: hidden;
             background: var(--brand-blue);
         }
 
         /*
-         * White content page behind the opening visual.
+         * The original white page underneath the intro.
          */
         .original-page {
             position: absolute;
@@ -80,6 +84,7 @@
             justify-content: center;
 
             padding: 50px 24px;
+
             background: var(--white);
 
             opacity: 0;
@@ -94,16 +99,19 @@
             text-align: center;
         }
 
-        .company-name {
-            margin: 0 0 30px;
+        /*
+         * This replaces the written "Avante CEIC" heading.
+         */
+        .avante-logo {
+            display: block;
 
-            font-family: "Cormorant Garamond", serif;
-            font-size: clamp(58px, 9vw, 126px);
-            font-weight: 400;
-            line-height: 0.9;
-            letter-spacing: -0.055em;
+            width: min(500px, 80vw);
+            max-height: 220px;
+            height: auto;
 
-            color: var(--text-blue);
+            object-fit: contain;
+
+            margin: 0 auto 35px;
         }
 
         .paragraph {
@@ -125,6 +133,7 @@
 
         .email {
             display: inline-block;
+
             margin-top: 46px;
             padding-bottom: 7px;
 
@@ -135,7 +144,9 @@
 
             color: var(--text-blue);
             text-decoration: none;
-            border-bottom: 1px solid rgba(8, 60, 133, 0.45);
+
+            border-bottom:
+                1px solid rgba(8, 60, 133, 0.45);
 
             transition:
                 opacity 250ms ease,
@@ -162,14 +173,20 @@
             justify-content: center;
 
             overflow: hidden;
+
+            /*
+             * This now matches the image blue exactly.
+             */
             background: var(--brand-blue);
 
             will-change: opacity;
         }
 
         /*
-         * The image fits fully inside the viewport instead of being cropped.
-         * Because the image and page use the same blue, the empty areas blend in.
+         * Great Zimbabwe image.
+         *
+         * "contain" prevents it from being cropped.
+         * The matching blue fills any remaining viewport space.
          */
         .hero-image {
             position: absolute;
@@ -180,10 +197,11 @@
             width: min(100vw, 100vh);
             height: min(100vw, 100vh);
 
+            display: block;
+
             object-fit: contain;
             object-position: center;
 
-            display: block;
             user-select: none;
             pointer-events: none;
 
@@ -191,23 +209,23 @@
                 translate(-50%, -50%)
                 scale(1);
 
-            transform-origin: center center;
-            will-change: transform, opacity;
+            transform-origin: center;
+            will-change: transform;
         }
 
         /*
-         * Kept above the image so it is always visible.
+         * Always appears above the Great Zimbabwe image.
          */
         .scroll-message {
             position: absolute;
             left: 50%;
-            bottom: 28px;
+            bottom: 24px;
             z-index: 20;
 
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 9px;
 
             transform: translateX(-50%);
 
@@ -216,9 +234,12 @@
             font-weight: 600;
             letter-spacing: 0.2em;
             text-transform: uppercase;
+            white-space: nowrap;
 
-            color: rgba(255, 255, 255, 0.92);
-            text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
+            color: rgba(255, 255, 255, 0.95);
+
+            text-shadow:
+                0 2px 14px rgba(0, 0, 0, 0.45);
 
             pointer-events: none;
             will-change: opacity;
@@ -226,11 +247,13 @@
 
         .scroll-line {
             width: 1px;
-            height: 42px;
+            height: 35px;
 
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.75);
 
-            animation: scrollPulse 1.8s ease-in-out infinite;
+            animation:
+                scrollPulse 1.8s ease-in-out infinite;
+
             transform-origin: top;
         }
 
@@ -261,8 +284,10 @@
                 padding: 40px 22px;
             }
 
-            .company-name {
-                margin-bottom: 24px;
+            .avante-logo {
+                width: min(420px, 84vw);
+                max-height: 170px;
+                margin-bottom: 28px;
             }
 
             .paragraph {
@@ -277,11 +302,15 @@
             .hero-image {
                 width: 94vw;
                 height: 94vw;
-                max-height: 82vh;
+                max-height: 80vh;
             }
 
             .scroll-message {
-                bottom: 20px;
+                bottom: 16px;
+            }
+
+            .scroll-line {
+                height: 28px;
             }
         }
 
@@ -305,22 +334,29 @@
 
             <div class="scene">
 
+                <!-- White Avante page -->
                 <div class="original-page" id="originalPage">
 
                     <div class="page-content">
 
-                        <h1 class="company-name">
-                            Avante CEIC
-                        </h1>
+                        <!--
+                            This image replaces the written
+                            "Avante CEIC" heading.
+                        -->
+                        <img
+                            class="avante-logo"
+                            src="your-image.png"
+                            alt="Avante CEIC"
+                        >
 
                         <p class="paragraph">
                             <span class="highlight">
                                 Avante CEIC Limited
                             </span>
-                            is a privately owned investment holding company
-                            focused on long-term investments that enhance lives
-                            and drive sustainable development across emerging
-                            markets.
+                            is a privately owned investment holding
+                            company focused on long-term investments
+                            that enhance lives and drive sustainable
+                            development across emerging markets.
                         </p>
 
                         <a
@@ -334,7 +370,11 @@
 
                 </div>
 
-                <div class="opening-visual" id="openingVisual">
+                <!-- Full-screen Great Zimbabwe opening -->
+                <div
+                    class="opening-visual"
+                    id="openingVisual"
+                >
 
                     <img
                         class="hero-image"
@@ -343,7 +383,10 @@
                         alt="Great Zimbabwe illustration"
                     >
 
-                    <div class="scroll-message" id="scrollMessage">
+                    <div
+                        class="scroll-message"
+                        id="scrollMessage"
+                    >
                         <span>Scroll to enter</span>
                         <span class="scroll-line"></span>
                     </div>
@@ -407,7 +450,8 @@
         function easeInOut(value) {
             return value < 0.5
                 ? 4 * value * value * value
-                : 1 - Math.pow(-2 * value + 2, 3) / 2;
+                : 1 -
+                    Math.pow(-2 * value + 2, 3) / 2;
         }
 
         function updateAnimation() {
@@ -426,8 +470,8 @@
             );
 
             /*
-             * Wait briefly before shrinking so visitors can first
-             * see the complete image.
+             * Keep the full image visible briefly,
+             * then begin shrinking it.
              */
             const shrinkProgress = easeInOut(
                 mapRange(
@@ -439,15 +483,9 @@
                 )
             );
 
-            /*
-             * Starts at full size and shrinks toward the centre.
-             */
             const imageScale =
                 1 - shrinkProgress * 0.76;
 
-            /*
-             * Small upward movement during the shrink.
-             */
             const imageY =
                 mapRange(
                     progress,
@@ -464,9 +502,9 @@
             `;
 
             /*
-             * Fade the image after it has already become smaller.
+             * Fade out the complete blue opening layer.
              */
-            const imageOpacity =
+            const openingOpacity =
                 mapRange(
                     progress,
                     0.48,
@@ -476,10 +514,10 @@
                 );
 
             openingVisual.style.opacity =
-                imageOpacity;
+                openingOpacity;
 
             /*
-             * Reveal the original white page.
+             * Reveal the white Avante page.
              */
             const pageOpacity =
                 mapRange(
@@ -506,7 +544,7 @@
                 `translateY(${pageY}px)`;
 
             /*
-             * Hide the scroll instruction after scrolling begins.
+             * Hide "Scroll to enter" once scrolling begins.
              */
             const messageOpacity =
                 mapRange(
@@ -521,7 +559,7 @@
                 messageOpacity;
 
             /*
-             * Stop invisible layers from blocking the email link.
+             * Prevent hidden layers from blocking the email link.
              */
             openingVisual.style.pointerEvents =
                 progress > 0.82
