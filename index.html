@@ -9,10 +9,7 @@
 
     <title>Avante CEIC</title>
 
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
         rel="preconnect"
         href="https://fonts.gstatic.com"
@@ -26,10 +23,10 @@
     <style>
         :root {
             /*
-             * Adjust this value if the blue around the image
-             * does not perfectly match the image background.
+             * This should match the blue in the image.
+             * Adjust slightly if you still see a visible edge.
              */
-            --brand-blue: #003f88;
+            --brand-blue: #003e8a;
             --text-blue: #083c85;
             --body-text: #324158;
             --white: #ffffff;
@@ -50,8 +47,7 @@
         }
 
         /*
-         * The section is taller than the screen so that the user
-         * has enough scrolling distance to control the animation.
+         * Provides enough scroll distance for the animation.
          */
         .scroll-intro {
             position: relative;
@@ -60,8 +56,7 @@
         }
 
         /*
-         * This remains fixed in the viewport while the parent
-         * section is being scrolled.
+         * Stays fixed while the user scrolls through the intro.
          */
         .scene {
             position: sticky;
@@ -73,7 +68,7 @@
         }
 
         /*
-         * The original white page sits behind the opening image.
+         * White content page behind the opening visual.
          */
         .original-page {
             position: absolute;
@@ -89,7 +84,9 @@
 
             opacity: 0;
             transform: translateY(55px);
+
             pointer-events: none;
+            will-change: opacity, transform;
         }
 
         .page-content {
@@ -98,7 +95,7 @@
         }
 
         .company-name {
-            margin: 0 0 32px;
+            margin: 0 0 30px;
 
             font-family: "Cormorant Garamond", serif;
             font-size: clamp(58px, 9vw, 126px);
@@ -128,7 +125,7 @@
 
         .email {
             display: inline-block;
-            margin-top: 48px;
+            margin-top: 46px;
             padding-bottom: 7px;
 
             font-family: "Montserrat", sans-serif;
@@ -142,16 +139,18 @@
 
             transition:
                 opacity 250ms ease,
-                border-color 250ms ease;
+                border-color 250ms ease,
+                padding-bottom 250ms ease;
         }
 
         .email:hover {
-            opacity: 0.65;
+            opacity: 0.68;
             border-color: var(--text-blue);
+            padding-bottom: 11px;
         }
 
         /*
-         * Full-screen opening layer.
+         * Full-screen blue opening layer.
          */
         .opening-visual {
             position: absolute;
@@ -162,33 +161,48 @@
             align-items: center;
             justify-content: center;
 
+            overflow: hidden;
             background: var(--brand-blue);
-            transform-origin: center;
-            will-change: opacity, background-color;
-        }
 
-        .hero-image {
-            width: 100%;
-            height: 100%;
-            display: block;
-
-            object-fit: cover;
-            object-position: center;
-
-            transform-origin: center;
-            will-change: transform, opacity;
-            user-select: none;
-            pointer-events: none;
+            will-change: opacity;
         }
 
         /*
-         * Small instruction visible only at the beginning.
+         * The image fits fully inside the viewport instead of being cropped.
+         * Because the image and page use the same blue, the empty areas blend in.
+         */
+        .hero-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 1;
+
+            width: min(100vw, 100vh);
+            height: min(100vw, 100vh);
+
+            object-fit: contain;
+            object-position: center;
+
+            display: block;
+            user-select: none;
+            pointer-events: none;
+
+            transform:
+                translate(-50%, -50%)
+                scale(1);
+
+            transform-origin: center center;
+            will-change: transform, opacity;
+        }
+
+        /*
+         * Kept above the image so it is always visible.
          */
         .scroll-message {
             position: absolute;
-            z-index: 3;
-            bottom: 28px;
             left: 50%;
+            bottom: 28px;
+            z-index: 20;
 
             display: flex;
             flex-direction: column;
@@ -203,7 +217,10 @@
             letter-spacing: 0.2em;
             text-transform: uppercase;
 
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.92);
+            text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
+
+            pointer-events: none;
             will-change: opacity;
         }
 
@@ -211,7 +228,7 @@
             width: 1px;
             height: 42px;
 
-            background: rgba(255, 255, 255, 0.55);
+            background: rgba(255, 255, 255, 0.7);
 
             animation: scrollPulse 1.8s ease-in-out infinite;
             transform-origin: top;
@@ -220,8 +237,8 @@
         @keyframes scrollPulse {
             0%,
             100% {
-                transform: scaleY(0.4);
-                opacity: 0.35;
+                transform: scaleY(0.35);
+                opacity: 0.3;
             }
 
             50% {
@@ -230,10 +247,6 @@
             }
         }
 
-        /*
-         * Keeps the final white presentation visible after
-         * the transformation has completed.
-         */
         .ending-space {
             min-height: 35vh;
             background: var(--white);
@@ -241,7 +254,7 @@
 
         @media (max-width: 700px) {
             .scroll-intro {
-                height: 230vh;
+                height: 235vh;
             }
 
             .original-page {
@@ -249,7 +262,7 @@
             }
 
             .company-name {
-                margin-bottom: 25px;
+                margin-bottom: 24px;
             }
 
             .paragraph {
@@ -259,6 +272,16 @@
             .email {
                 margin-top: 36px;
                 font-size: 12px;
+            }
+
+            .hero-image {
+                width: 94vw;
+                height: 94vw;
+                max-height: 82vh;
+            }
+
+            .scroll-message {
+                bottom: 20px;
             }
         }
 
@@ -280,9 +303,8 @@
 
         <section class="scroll-intro" id="scrollIntro">
 
-            <div class="scene" id="scene">
+            <div class="scene">
 
-                <!-- Original white Avante page -->
                 <div class="original-page" id="originalPage">
 
                     <div class="page-content">
@@ -312,7 +334,6 @@
 
                 </div>
 
-                <!-- Full-screen Great Zimbabwe opening -->
                 <div class="opening-visual" id="openingVisual">
 
                     <img
@@ -338,29 +359,42 @@
     </main>
 
     <script>
-        const scrollIntro = document.getElementById("scrollIntro");
-        const openingVisual = document.getElementById("openingVisual");
-        const heroImage = document.getElementById("heroImage");
-        const originalPage = document.getElementById("originalPage");
-        const scrollMessage = document.getElementById("scrollMessage");
+        const scrollIntro =
+            document.getElementById("scrollIntro");
 
-        const clamp = (number, minimum, maximum) => {
-            return Math.min(Math.max(number, minimum), maximum);
-        };
+        const openingVisual =
+            document.getElementById("openingVisual");
 
-        const mapRange = (
+        const heroImage =
+            document.getElementById("heroImage");
+
+        const originalPage =
+            document.getElementById("originalPage");
+
+        const scrollMessage =
+            document.getElementById("scrollMessage");
+
+        function clamp(value, minimum, maximum) {
+            return Math.min(
+                Math.max(value, minimum),
+                maximum
+            );
+        }
+
+        function mapRange(
             value,
             inputMinimum,
             inputMaximum,
             outputMinimum,
             outputMaximum
-        ) => {
+        ) {
+            const percentage =
+                (value - inputMinimum) /
+                (inputMaximum - inputMinimum);
+
             const mapped =
                 outputMinimum +
-                (
-                    (value - inputMinimum) /
-                    (inputMaximum - inputMinimum)
-                ) *
+                percentage *
                 (outputMaximum - outputMinimum);
 
             return clamp(
@@ -368,101 +402,150 @@
                 Math.min(outputMinimum, outputMaximum),
                 Math.max(outputMinimum, outputMaximum)
             );
-        };
+        }
 
-        /*
-         * A smoother alternative to ordinary linear movement.
-         */
-        const easeInOut = (value) => {
+        function easeInOut(value) {
             return value < 0.5
                 ? 4 * value * value * value
                 : 1 - Math.pow(-2 * value + 2, 3) / 2;
-        };
+        }
 
         function updateAnimation() {
-            const sectionTop = scrollIntro.offsetTop;
             const scrollDistance =
-                scrollIntro.offsetHeight - window.innerHeight;
+                scrollIntro.offsetHeight -
+                window.innerHeight;
 
-            const distanceScrolled = window.scrollY - sectionTop;
+            const distanceScrolled =
+                window.scrollY -
+                scrollIntro.offsetTop;
 
-            const rawProgress = clamp(
+            const progress = clamp(
                 distanceScrolled / scrollDistance,
                 0,
                 1
             );
 
             /*
-             * Image shrinking begins immediately.
+             * Wait briefly before shrinking so visitors can first
+             * see the complete image.
              */
-            const scaleProgress = easeInOut(
-                mapRange(rawProgress, 0, 0.72, 0, 1)
+            const shrinkProgress = easeInOut(
+                mapRange(
+                    progress,
+                    0.08,
+                    0.72,
+                    0,
+                    1
+                )
             );
 
+            /*
+             * Starts at full size and shrinks toward the centre.
+             */
             const imageScale =
-                1 - scaleProgress * 0.78;
+                1 - shrinkProgress * 0.76;
 
             /*
-             * Slight upward movement makes the transition feel
-             * less static.
+             * Small upward movement during the shrink.
              */
             const imageY =
-                mapRange(rawProgress, 0, 0.72, 0, -8);
+                mapRange(
+                    progress,
+                    0.08,
+                    0.72,
+                    0,
+                    -5
+                );
 
-            heroImage.style.transform =
-                `translateY(${imageY}vh) scale(${imageScale})`;
+            heroImage.style.transform = `
+                translate(-50%, -50%)
+                translateY(${imageY}vh)
+                scale(${imageScale})
+            `;
 
             /*
-             * Fade the blue image near the final part of the animation.
+             * Fade the image after it has already become smaller.
              */
             const imageOpacity =
-                mapRange(rawProgress, 0.48, 0.82, 1, 0);
+                mapRange(
+                    progress,
+                    0.48,
+                    0.82,
+                    1,
+                    0
+                );
 
-            openingVisual.style.opacity = imageOpacity;
+            openingVisual.style.opacity =
+                imageOpacity;
 
             /*
-             * Reveal the original white page while the image disappears.
+             * Reveal the original white page.
              */
-            const contentOpacity =
-                mapRange(rawProgress, 0.52, 0.84, 0, 1);
+            const pageOpacity =
+                mapRange(
+                    progress,
+                    0.52,
+                    0.84,
+                    0,
+                    1
+                );
 
-            const contentY =
-                mapRange(rawProgress, 0.52, 0.84, 55, 0);
+            const pageY =
+                mapRange(
+                    progress,
+                    0.52,
+                    0.84,
+                    55,
+                    0
+                );
 
-            originalPage.style.opacity = contentOpacity;
+            originalPage.style.opacity =
+                pageOpacity;
+
             originalPage.style.transform =
-                `translateY(${contentY}px)`;
+                `translateY(${pageY}px)`;
 
             /*
-             * Remove the scroll instruction quickly.
+             * Hide the scroll instruction after scrolling begins.
              */
             const messageOpacity =
-                mapRange(rawProgress, 0, 0.13, 1, 0);
+                mapRange(
+                    progress,
+                    0,
+                    0.14,
+                    1,
+                    0
+                );
 
-            scrollMessage.style.opacity = messageOpacity;
+            scrollMessage.style.opacity =
+                messageOpacity;
 
             /*
-             * Prevent the invisible opening layer from blocking links.
+             * Stop invisible layers from blocking the email link.
              */
             openingVisual.style.pointerEvents =
-                rawProgress > 0.82 ? "none" : "auto";
+                progress > 0.82
+                    ? "none"
+                    : "auto";
 
             originalPage.style.pointerEvents =
-                rawProgress > 0.72 ? "auto" : "none";
+                progress > 0.72
+                    ? "auto"
+                    : "none";
         }
 
-        let animationFrameRequested = false;
+        let frameRequested = false;
 
         function requestAnimationUpdate() {
-            if (animationFrameRequested) {
+            if (frameRequested) {
                 return;
             }
 
-            animationFrameRequested = true;
+            frameRequested = true;
 
             window.requestAnimationFrame(() => {
                 updateAnimation();
-                animationFrameRequested = false;
+                frameRequested = false;
             });
         }
 
